@@ -419,7 +419,7 @@ class Chat extends Component {
                 <Grid item xs={4}>
                   <Button
                   fullWidth
-                    style={{ marginTop: 12 }}
+                    style={{ marginLeft: 5 }}
                     onClick={this.handleSendMessage}
                     color="primary"
                     variant="contained"
