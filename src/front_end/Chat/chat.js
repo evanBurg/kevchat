@@ -159,27 +159,6 @@ class Chat extends Component {
     this.setState({ roomName: room });
   };
 
-  isScrolledIntoView = el => {
-    if (el && typeof el.getBoundingClientRect === "function") {
-      var rect = el.getBoundingClientRect(),
-        top = rect.top,
-        height = rect.height,
-        el = el.parentNode;
-      // Check if bottom of the element is off the page
-      if (rect.bottom < 0) return false;
-      // Check its within the document viewport
-      if (top > document.documentElement.clientHeight) return false;
-      do {
-        rect = el.getBoundingClientRect();
-        if (top <= rect.bottom === false) return false;
-        // Check if the element is out of view due to a container scrolling
-        if (top + height <= rect.top) return false;
-        el = el.parentNode;
-      } while (el != document.body);
-      return true;
-    }
-  };
-
   // handler for send message button
   handleSendMessage = e => {
     e.preventDefault();
@@ -201,14 +180,9 @@ class Chat extends Component {
   };
   handleCloseDialog = () => this.setState({ open: false });
   scrollToFinal = () => {
-    let userDOM = ReactDOM.findDOMNode(
-      document.getElementsByClassName("final-message")[0]
-    );
-    userDOM.scrollIntoView({
-      alignToTop: false,
-      scrollIntoViewOptions: { block: "end", inline: "nearest" }
-    });
-    userDOM.blur();
+    var objDiv = document.getElementById("message-container");
+    objDiv.scrollTop = objDiv.scrollHeight;
+    document.getElementsByClassName("final-message")[0].scrollIntoView()
   };
 
   newMessageComponent = () => {
@@ -217,18 +191,19 @@ class Chat extends Component {
         onClick={this.scrollToFinal}
         style={{
           color: "white",
-          padding: 25,
           borderRadius: 30,
+          padding: 8,
+          textAlign: "center",
           position: "fixed",
           display: "block",
-          width: "93%",
-          top: 95,
-          height: 50,
+          paddingBottom: "unset",
+          bottom: 95,
+          right: 10,
           backgroundColor: "rgb(38, 50, 56)"
         }}
         variant="subtitle2"
       >
-        New Message <ArrowDown />
+        <ArrowDown />
       </Typography>
     );
   };
@@ -385,6 +360,7 @@ class Chat extends Component {
             </Paper>
           )}
           <List
+            id="message-container"
             className="scenario-container messages"
             style={{ marginBottom: 70 }}
           >
@@ -404,11 +380,7 @@ class Chat extends Component {
               );
             })}
           </List>
-          {this.isScrolledIntoView(
-            document.getElementsByClassName("final-message")[0]
-          )
-            ? this.newMessageComponent()
-            : ""}
+          {hideJoinObjects && this.newMessageComponent()}
         </div>
       </MuiThemeProvider>
     );
