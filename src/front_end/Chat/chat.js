@@ -283,7 +283,7 @@ class Chat extends Component {
 
   render() {
     const { messages, chatName, hideJoinObjects, msg } = this.state;
-    const width = 0;
+    const width = window.innerWidth;
     return (
       <MuiThemeProvider theme={theme}>
         <TopBar viewDialog={this.handleOpenDialog} homeClick={this.leave} />
