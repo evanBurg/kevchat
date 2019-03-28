@@ -1,9 +1,10 @@
-"use strict";
+"use strict"
 const offlineUrl = "./offline.html";
+const imageUrl = "./img/mobile.png"
 this.addEventListener("install", event => {
   event.waitUntil(
     caches.open("offline-cache").then(function(cache) {
-      return cache.addAll([offlineUrl]);
+      return cache.addAll([offlineUrl, imageUrl]);
     })
   );
 });
@@ -11,7 +12,7 @@ this.addEventListener("fetch", event => {
   // request.mode = navigate isn't supported in all browsers
   // so include a check for Accept: text/html header.
   if (
-    event.request.mode === "navigate" ||
+    (event.request.mode === "navigate" || event.request.mode === "cors")  ||
     (event.request.method === "GET" &&
       event.request.headers.get("accept").includes("text/html"))
   ) {

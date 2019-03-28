@@ -72,6 +72,18 @@ class Chat extends Component {
     };
   }
 
+  componentDidMount(){
+    this.setState({
+      onlineInterveral: setInterval(() => {
+        fetch("/api/online").then((response) => {
+          if(response !== true){
+            window.location = response.url;
+          }
+        })
+      }, 60000)
+    })
+  }
+
   newMessageReceived = data => {
     this.addMessage(data);
     this.setState({

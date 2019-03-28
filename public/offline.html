@@ -12,22 +12,25 @@
       }
       #offline-icon {
         position: absolute;
-        top: 0;
+        top: 30%;
         left: 0;
         max-width: 100vw;
         max-height: 100vh;
-        opacity: 0.05;
+        opacity: 0.39;
+        z-index: 20;
+        fill: red;
       }
     </style>
   </head>
   <body>
-    <h1 style="color:#417505;">Sorry!</h1>
-    <p style="background-color: #417505;color:white;">
+    <h1>Sorry!</h1>
+    <p>
       This chat app is having a problem locating the server.
     </p>
-    <p style="background-color: #417505;color:white;">
+    <p>
       Please check your network connection and try again.
     </p>
+    <img src="img/mobile.png" width="100%" />
     <svg id="offline-icon" viewBox="0, 0, 24, 24">
       <g>
         <path
