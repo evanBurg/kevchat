@@ -7,8 +7,7 @@ getRandomColour = del => {
 };
 const systemColor = getRandomColour(true);
 
-
-let currentUsers = [{name: "admin", color: systemColor, room: "ALL"}];
+let currentUsers = [{ name: "admin", color: systemColor, room: "ALL" }];
 
 exports.canJoinRoom = client => {
   let currentNames = currentUsers.map(user => user.name);
@@ -40,15 +39,14 @@ exports.leaveRoom = socket => {
       }
     });
 
-    if (leavingUser)
-      matColours.push(leavingUser.color);
-      socket.to(leavingUser.room).emit("someoneleft", {
-        from: "admin",
-        time: new Date(),
-        room: leavingUser.room,
-        color: systemColor,
-        message: `User ${leavingUser.name} left room ${leavingUser.room}`
-      });
+    if (leavingUser) matColours.push(leavingUser.color);
+    socket.to(leavingUser.room).emit("someoneleft", {
+      from: "admin",
+      time: new Date(),
+      room: leavingUser.room,
+      color: systemColor,
+      message: `User ${leavingUser.name} left room ${leavingUser.room}`
+    });
 
     resolve(leavingUser);
   });
@@ -72,12 +70,15 @@ exports.getUsers = () => {
   return currentUsers;
 };
 
-onlyUnique = (value, index, self) => { 
+onlyUnique = (value, index, self) => {
   return self.indexOf(value) === index;
-}
+};
 
 exports.rooms = () => {
-  return currentUsers.filter(user => user.name !== "admin").map(user => user.room).filter( onlyUnique );
+  return currentUsers
+    .filter(user => user.name !== "admin")
+    .map(user => user.room)
+    .filter(onlyUnique);
 };
 
 exports.nameExists = (client, socket) => {
@@ -130,14 +131,25 @@ exports.broadcastMessage = (client, io, socket) => {
       room: client.room,
       color: socket.color
     });
-    resolve(
+    io.in(client.room).emit("newmessage", {
+      from: socket.name,
+      time: new Date(),
+      room: client.room,
+      color: socket.color,
+      message: `${client.name} says: "${client.msg}"`
+    });
+
+    if (client.msg.includes("invite")) {
       io.in(client.room).emit("newmessage", {
-        from: socket.name,
+        from: "admin",
         time: new Date(),
         room: client.room,
-        color: socket.color,
-        message: `${client.name} says: "${client.msg}"`
-      })
-    );
+        color: systemColor,
+        invite: true,
+        message: `Use this link to invite people!`
+      });
+    }
+
+    resolve(client);
   });
 };

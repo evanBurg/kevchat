@@ -63,12 +63,14 @@ class Chat extends Component {
     socket.on("users", this.setUsers);
     socket.on("disconnect", this.leave);
 
+    var urlParams = new URLSearchParams(window.location.search)
+    
     this.state = {
       socket: socket,
       messages: [],
       users: [],
       chatName: "",
-      roomName: "",
+      roomName: urlParams.has("room") ? {label: urlParams.get("room"), value: urlParams.get("room")} : "",
       msg: "",
       isTyping: false,
       whoIsTyping: [],
@@ -316,7 +318,7 @@ class Chat extends Component {
         </Dialog>
         <div style={{ marginTop: 110 }}>
           {!hideJoinObjects && (
-            <Card style={width > 768 ? cardStyleDesktop : undefined}>
+            <Card style={width > 768 ? cardStyleDesktop : undefinedgi}>
               <Typography
                 style={{ marginTop: 10, textAlign: "center" }}
                 variant="h5"

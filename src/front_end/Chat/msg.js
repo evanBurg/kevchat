@@ -28,6 +28,7 @@ class Msg extends React.Component {
           style={{ color: "white", background: message.color }}
         >
           {message.from === "admin" ? <i>{message.message}</i> : message.message}
+          {message.invite && <i>{" "}<a style={{color: 'white'}} href={`/?room=${message.room}`}>Copy this!</a></i>}
         </Typography>
         <div className={mine ? "mine details" : "yours details"}>
           <Collapse in={this.state.open}>
