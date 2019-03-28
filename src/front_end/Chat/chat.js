@@ -64,7 +64,7 @@ class Chat extends Component {
     socket.on("disconnect", this.leave);
 
     var urlParams = new URLSearchParams(window.location.search)
-    
+
     this.state = {
       socket: socket,
       messages: [],
@@ -283,7 +283,7 @@ class Chat extends Component {
 
   render() {
     const { messages, chatName, hideJoinObjects, msg } = this.state;
-    const width = window.innerWidth;
+    const width = 0;
     return (
       <MuiThemeProvider theme={theme}>
         <TopBar viewDialog={this.handleOpenDialog} homeClick={this.leave} />
@@ -318,7 +318,7 @@ class Chat extends Component {
         </Dialog>
         <div style={{ marginTop: 110 }}>
           {!hideJoinObjects && (
-            <Card style={width > 768 ? cardStyleDesktop : undefinedgi}>
+            <Card style={width > 768 ? cardStyleDesktop : undefined}>
               <Typography
                 style={{ marginTop: 10, textAlign: "center" }}
                 variant="h5"
