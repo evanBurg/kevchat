@@ -395,7 +395,7 @@ class Chat extends Component {
                 left: "0px",
                 right: "0px",
                 padding: "15px",
-                height: "40px",
+                height: "50px",
                 zIndex: 20,
                 backgroundColor: "white"
               }}
