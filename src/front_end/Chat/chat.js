@@ -159,7 +159,7 @@ class Chat extends Component {
   };
 
   isScrolledIntoView = el => {
-    if (el) {
+    if (el && typeof el.getBoundingClientRect === "function") {
       let rect = el.getBoundingClientRect();
       let elemTop = rect.top;
       let elemBottom = rect.bottom;
