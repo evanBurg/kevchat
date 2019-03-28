@@ -7,7 +7,7 @@ getRandomColour = del => {
 };
 const systemColor = getRandomColour(true);
 
-let currentUsers = [];
+let currentUsers = [{name: "admin", color: systemColor, room: "ALL"}];
 
 exports.canJoinRoom = client => {
   let currentNames = currentUsers.map(user => user.name);

@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, ListItem, Collapse } from "@material-ui/core";
+import PriorityHigh from "@material-ui/icons/PriorityHigh";
 class Msg extends React.Component {
   state = {
     open: false
@@ -23,7 +24,7 @@ class Msg extends React.Component {
           }
           style={{ color: "white", background: message.color }}
         >
-          {message.message}
+          {message.message} {" "} {message.from == "admin" ? <PriorityHigh/> : ""}
         </Typography>
         <div className={mine ? "mine details" : "yours details"}>
           <Collapse in={this.state.open}>

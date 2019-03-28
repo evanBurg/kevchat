@@ -54,7 +54,7 @@ class Chat extends Component {
     socket.on("newmessage", this.newMessageReceived);
     socket.on("rooms", this.setRooms);
     socket.on("users", this.setUsers);
-    socket.on("disconnect", this.leave)
+    socket.on("disconnect", this.leave);
 
     this.state = {
       socket: socket,
@@ -380,20 +380,20 @@ class Chat extends Component {
           {hideJoinObjects && (
             <Paper
               style={{
-                position: 'fixed',
-                bottom: '-5px',
-                left: '0px',
-                right: '0px',
-                padding: '15px',
-                height: '40px',
+                position: "fixed",
+                bottom: "-5px",
+                left: "0px",
+                right: "0px",
+                padding: "15px",
+                height: "40px",
                 zIndex: 20,
-                backgroundColor: 'white'
+                backgroundColor: "white"
               }}
             >
               <Grid container spacing={24}>
                 <Grid item xs={8}>
                   <TextField
-                  fullWidth
+                    fullWidth
                     onChange={this.onMessageChange}
                     onKeyPress={ev => {
                       if (ev.key === "Enter") {
@@ -418,14 +418,13 @@ class Chat extends Component {
                 </Grid>
                 <Grid item xs={4}>
                   <Button
-                  fullWidth
-                    style={{ marginLeft: 5 }}
+                    fullWidth
                     onClick={this.handleSendMessage}
                     color="primary"
                     variant="contained"
                     disabled={msg.length < 1}
                   >
-                    Send <Send/>
+                    Send <Send style={{ marginLeft: 5 }} />
                   </Button>
                 </Grid>
               </Grid>
