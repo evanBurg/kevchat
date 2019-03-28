@@ -375,7 +375,6 @@ class Chat extends Component {
               </Grid>
             </Paper>
           )}
-
           <List
             className="scenario-container messages"
             style={{ marginBottom: 70 }}
