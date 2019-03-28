@@ -25,7 +25,7 @@
     ],
     "start_url": "./",
     "display": "standalone",
-    "theme_color": "rgba(148, 176, 218, 1)",
+    "theme_color": "#94b0da",
     "background_color": "#ffffff"
    }
    

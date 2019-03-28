@@ -319,6 +319,7 @@ class Chat extends Component {
                 <Grid container spacing={24}>
                   <Grid item xs={6}>
                     <TextField
+                      fullWidth
                       style={{ marginTop: 16 }}
                       onChange={this.onNameChange}
                       placeholder="Enter unique name"
@@ -391,13 +392,14 @@ class Chat extends Component {
               <Grid container spacing={24}>
                 <Grid item xs={8}>
                   <TextField
+                  fullWidth
                     onChange={this.onMessageChange}
                     onKeyPress={ev => {
                       if (ev.key === "Enter") {
                         this.handleSendMessage(ev);
                       }
                     }}
-                    placeholder="type something here"
+                    placeholder="Send a message..."
                     autoFocus={true}
                     required
                     helperText={
@@ -415,6 +417,7 @@ class Chat extends Component {
                 </Grid>
                 <Grid item xs={4}>
                   <Button
+                  fullWidth
                     style={{ marginTop: 12 }}
                     onClick={this.handleSendMessage}
                     color="primary"
