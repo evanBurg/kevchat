@@ -7,6 +7,7 @@ getRandomColour = del => {
 };
 const systemColor = getRandomColour(true);
 
+
 let currentUsers = [{name: "admin", color: systemColor, room: "ALL"}];
 
 exports.canJoinRoom = client => {
@@ -71,8 +72,12 @@ exports.getUsers = () => {
   return currentUsers;
 };
 
+onlyUnique = (value, index, self) => { 
+  return self.indexOf(value) === index;
+}
+
 exports.rooms = () => {
-  return currentUsers.filter(user => user.name !== "admin").map(user => user.room);
+  return currentUsers.filter(user => user.name !== "admin").map(user => user.room).filter( onlyUnique );
 };
 
 exports.nameExists = (client, socket) => {

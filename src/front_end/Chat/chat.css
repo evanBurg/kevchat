@@ -7,6 +7,8 @@
 .message {
   border-radius: 20px;
   padding: 8px 15px;
+  max-width: 100%;
+  word-wrap: break-word;
   margin-top: 5px !important;
   margin-bottom: 5px !important;
   display: inline-block !important;
