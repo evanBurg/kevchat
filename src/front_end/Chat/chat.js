@@ -19,6 +19,7 @@ import {
 } from "@material-ui/core";
 import Face from "@material-ui/icons/Face";
 import ArrowDown from "@material-ui/icons/ArrowDownward";
+import Send from "@material-ui/icons/Send";
 import theme from "../../../theme";
 import "./chat.css";
 import Message from "./msg";
@@ -379,14 +380,14 @@ class Chat extends Component {
           {hideJoinObjects && (
             <Paper
               style={{
-                position: "fixed",
-                bottom: -5,
-                left: 0,
-                width: "100%",
-                padding: 10,
-                height: 60,
+                position: 'fixed',
+                bottom: '-5px',
+                left: '0px',
+                right: '0px',
+                padding: '15px',
+                height: '40px',
                 zIndex: 20,
-                backgroundColor: "white"
+                backgroundColor: 'white'
               }}
             >
               <Grid container spacing={24}>
@@ -424,7 +425,7 @@ class Chat extends Component {
                     variant="contained"
                     disabled={msg.length < 1}
                   >
-                    Send
+                    Send <Send/>
                   </Button>
                 </Grid>
               </Grid>
