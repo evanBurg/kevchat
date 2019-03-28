@@ -17,6 +17,7 @@ import {
   DialogContent
 } from "@material-ui/core";
 import Face from "@material-ui/icons/Face";
+import ArrowDown from "@material-ui/icons/ArrowDownward";
 import theme from "../../../theme";
 import "./chat.css";
 import Message from "./msg";
@@ -97,7 +98,6 @@ class Chat extends Component {
   };
 
   setRooms = rooms => {
-    console.log(rooms);
     this.setState({
       rooms: rooms.map(room => {
         return { label: room, value: room };
@@ -158,6 +158,16 @@ class Chat extends Component {
     this.setState({ roomName: room });
   };
 
+  isScrolledIntoView = (el) => {
+    let rect = el.getBoundingClientRect();
+    let elemTop = rect.top;
+    let elemBottom = rect.bottom;
+
+    let isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+
+    return isVisible;
+}
+
   // handler for send message button
   handleSendMessage = e => {
     e.preventDefault();
@@ -178,6 +188,17 @@ class Chat extends Component {
     this.setState({ open: true });
   };
   handleCloseDialog = () => this.setState({ open: false });
+  scrollToFinal = () => {
+    let userDOM = ReactDOM.findDOMNode(document.getElementsByClassName("final")[0]);
+    userDOM.scrollIntoView({ alignToTop: false, scrollIntoViewOptions: {block: "end", inline: "nearest"} });
+    userDOM.blur();
+  }
+
+  newMessageComponent = () => {
+    return <Typography onClick={this.scrollToFinal} style={{padding: 25, borderRadius: 30, position: "fixed", display: 'block', width: "93%", top: 95, height: 50, backgroundColor: "rgb(38, 50, 56)" }} variant="subtitle2">
+      New Message <ArrowDown/>
+    </Typography>
+  }
 
   render() {
     const { messages, chatName, hideJoinObjects, msg } = this.state;
@@ -341,10 +362,12 @@ class Chat extends Component {
                       : true
                   }
                   key={index}
+                  final={index === messages.length - 1}
                 />
               );
             })}
           </List>
+          {this.isScrolledIntoView(document.getElementsByClassName("final-message"[0])) ? this.newMessageComponent() : "" }
         </div>
       </MuiThemeProvider>
     );

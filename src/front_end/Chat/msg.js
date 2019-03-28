@@ -1,17 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { Typography, ListItem, Collapse } from "@material-ui/core";
 class Msg extends React.Component {
   state = {
     open: false
   };
-  componentDidMount = () => {
-    let userDOM = ReactDOM.findDOMNode(this);
-    userDOM.scrollIntoView({ block: "end", behavior: "smooth" });
-    userDOM.blur();
-  };
   render() {
-    let { message, mine, last } = this.props;
+    let { message, mine, last, final } = this.props;
     return (
       <ListItem
         style={{
@@ -25,7 +19,7 @@ class Msg extends React.Component {
           onClick={() => this.setState({ open: !this.state.open })}
           variant="body1"
           className={
-            (mine ? "mine " : "yours ") + "message" + (last ? " last" : "")
+            (mine ? "mine " : "yours ") + "message" + (last ? " last" : "") + (final ? " final" : "")
           }
           style={{ color: "white", background: message.color }}
         >
