@@ -5,8 +5,8 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "build": "webpack --mode development",
+    "start": "node server.js",
+    "build": "webpack --mode production",
     "watch": "webpack --mode development --watch --progress --hide-modules"
   },
   "keywords": [],
