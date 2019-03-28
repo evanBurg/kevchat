@@ -19,7 +19,7 @@ class Msg extends React.Component {
           onClick={() => this.setState({ open: !this.state.open })}
           variant="body1"
           className={
-            (mine ? "mine " : "yours ") + "message" + (last ? " last" : "") + (final ? " final" : "")
+            (mine ? "mine " : "yours ") + "message" + (last ? " last" : "") + (final ? " final-message" : "")
           }
           style={{ color: "white", background: message.color }}
         >

@@ -159,6 +159,7 @@ class Chat extends Component {
   };
 
   isScrolledIntoView = el => {
+    debugger;
     if (el && typeof el.getBoundingClientRect === "function") {
       let rect = el.getBoundingClientRect();
       let elemTop = rect.top;
@@ -192,7 +193,7 @@ class Chat extends Component {
   handleCloseDialog = () => this.setState({ open: false });
   scrollToFinal = () => {
     let userDOM = ReactDOM.findDOMNode(
-      document.getElementsByClassName("final")[0]
+      document.getElementsByClassName("final-message")[0]
     );
     userDOM.scrollIntoView({
       alignToTop: false,
