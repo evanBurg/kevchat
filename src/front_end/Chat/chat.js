@@ -35,7 +35,8 @@ const defaultState = {
   nameExists: false,
   hideJoinObjects: false,
   rooms: [],
-  open: false
+  open: false,
+  finalMessageNotInView: false
 };
 
 class Chat extends Component {
@@ -49,9 +50,10 @@ class Chat extends Component {
     socket.on("nameexists", this.nameExists);
     socket.on("someonejoined", this.addMessage);
     socket.on("someoneleft", this.addMessage);
-    socket.on("newmessage", this.addMessage);
+    socket.on("newmessage", this.newMessageReceived);
     socket.on("rooms", this.setRooms);
     socket.on("users", this.setUsers);
+    socket.on("disconnect", this.leave)
 
     this.state = {
       socket: socket,
@@ -64,10 +66,18 @@ class Chat extends Component {
       whoIsTyping: [],
       nameExists: false,
       hideJoinObjects: false,
+      finalMessageNotInView: false,
       rooms: [],
       open: false
     };
   }
+
+  newMessageReceived = data => {
+    this.addMessage(data);
+    this.setState({
+      finalMessageNotInView: this.finalMessageNotInView()
+    });
+  };
 
   someoneTyping = data => {
     let { whoIsTyping } = this.state;
@@ -179,34 +189,74 @@ class Chat extends Component {
     this.setState({ open: true });
   };
   handleCloseDialog = () => this.setState({ open: false });
+
+  finalMessageNotInView = () => {
+    let el = document.getElementsByClassName("final-message")[0];
+    var topOfPage =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop;
+    var heightOfPage =
+      window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
+    var elY = 0;
+    var elH = 0;
+    if (document.layers) {
+      elY = el.y;
+      elH = el.height;
+    } else {
+      for (var p = el; p && p.tagName != "BODY"; p = p.offsetParent) {
+        elY += p.offsetTop;
+      }
+      elH = el.offsetHeight;
+    }
+    if (topOfPage + heightOfPage < elY + elH) {
+      return true;
+    } else if (elY < topOfPage) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   scrollToFinal = () => {
     var objDiv = document.getElementById("message-container");
     objDiv.scrollTop = objDiv.scrollHeight;
-    document.getElementsByClassName("final-message")[0].scrollIntoView()
+    document
+      .getElementsByClassName("final-message")[0]
+      .scrollIntoView({ behavior: "smooth" });
+    this.setState({
+      finalMessageNotInView: false
+    });
   };
 
   newMessageComponent = () => {
-    return (
-      <Typography
-        onClick={this.scrollToFinal}
-        style={{
-          color: "white",
-          borderRadius: 30,
-          padding: 8,
-          textAlign: "center",
-          position: "fixed",
-          display: "block",
-          paddingBottom: "unset",
-          bottom: 95,
-          zIndex: 40,
-          right: 10,
-          backgroundColor: "rgb(38, 50, 56)"
-        }}
-        variant="subtitle2"
-      >
-        <ArrowDown />
-      </Typography>
-    );
+    if (this.state.finalMessageNotInView) {
+      return (
+        <Typography
+          onClick={this.scrollToFinal}
+          style={{
+            color: "white",
+            borderRadius: 30,
+            padding: 8,
+            textAlign: "center",
+            position: "fixed",
+            display: "block",
+            paddingBottom: "unset",
+            bottom: 95,
+            zIndex: 40,
+            right: 10,
+            backgroundColor: "rgb(38, 50, 56)"
+          }}
+          variant="subtitle2"
+        >
+          <ArrowDown />
+        </Typography>
+      );
+    } else {
+      return <React.Fragment />;
+    }
   };
 
   render() {
@@ -330,6 +380,11 @@ class Chat extends Component {
                 <Grid item xs={8}>
                   <TextField
                     onChange={this.onMessageChange}
+                    onKeyPress={ev => {
+                      if (ev.key === "Enter") {
+                        this.handleSendMessage(ev);
+                      }
+                    }}
                     placeholder="type something here"
                     autoFocus={true}
                     required
