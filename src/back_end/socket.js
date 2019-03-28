@@ -21,8 +21,7 @@ exports.canJoinRoom = client => {
 exports.joinRoom = (client, socket) => {
   return new Promise((resolve, reject) => {
     socket.name = client.name;
-    socket.color = getRandomColour(true);
-    client.color = getRandomColour(true);
+    client.color = socket.color = getRandomColour(true);
     currentUsers.push(client);
     resolve(socket.join(client.room));
   });

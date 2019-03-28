@@ -195,7 +195,7 @@ class Chat extends Component {
   }
 
   newMessageComponent = () => {
-    return <Typography onClick={this.scrollToFinal} style={{padding: 25, borderRadius: 30, position: "fixed", display: 'block', width: "93%", top: 95, height: 50, backgroundColor: "rgb(38, 50, 56)" }} variant="subtitle2">
+    return <Typography onClick={this.scrollToFinal} style={{color: 'white', padding: 25, borderRadius: 30, position: "fixed", display: 'block', width: "93%", top: 95, height: 50, backgroundColor: "rgb(38, 50, 56)" }} variant="subtitle2">
       New Message <ArrowDown/>
     </Typography>
   }
