@@ -1,4 +1,3 @@
-"use strict"
 const offlineUrl = "./offline.html";
 const imageUrl = "./img/mobile.png"
 this.addEventListener("install", event => {
@@ -12,13 +11,14 @@ this.addEventListener("fetch", event => {
   // request.mode = navigate isn't supported in all browsers
   // so include a check for Accept: text/html header.
   if (
-    (event.request.mode === "navigate" || event.request.mode === "cors")  ||
+    event.request.mode === "navigate" ||
     (event.request.method === "GET" &&
       event.request.headers.get("accept").includes("text/html"))
   ) {
     event.respondWith(
       fetch(event.request.url).catch(error => {
         // Return the offline page
+        console.log('here')
         return caches.match(offlineUrl);
       })
     );
