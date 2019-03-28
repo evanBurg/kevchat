@@ -16,20 +16,34 @@ class Msg extends React.Component {
           paddingBottom: "unset"
         }}
       >
+        {message.from == "admin" ? <PriorityHigh
+          style={{
+            position: 'relative',
+            top: '6px',
+            color: message.color
+          }}
+        /> : ""}
         <Typography
           onClick={() => this.setState({ open: !this.state.open })}
           variant="body1"
           className={
-            (mine ? "mine " : "yours ") + "message" + (last ? " last" : "") + (final ? " final-message" : "")
+            (mine ? "mine " : "yours ") +
+            "message" +
+            (last ? " last" : "") +
+            (final ? " final-message" : "")
           }
           style={{ color: "white", background: message.color }}
         >
-          {message.message} {" "} {message.from == "admin" ? <PriorityHigh/> : ""}
+          {message.message}{" "}
         </Typography>
         <div className={mine ? "mine details" : "yours details"}>
           <Collapse in={this.state.open}>
-            <Typography variant="caption" style={{color: 'rgba(0, 0, 0, 0.57)'}}>
-              @{new Date(message.time).toLocaleTimeString("en-US")} | [Room: {message.room}] [User: {message.from}]
+            <Typography
+              variant="caption"
+              style={{ color: "rgba(0, 0, 0, 0.57)" }}
+            >
+              @{new Date(message.time).toLocaleTimeString("en-US")} | [Room:{" "}
+              {message.room}] [User: {message.from}]
             </Typography>
           </Collapse>
         </div>
