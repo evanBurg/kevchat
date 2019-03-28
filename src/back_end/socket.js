@@ -71,7 +71,7 @@ exports.getUsers = () => {
 };
 
 exports.rooms = () => {
-  return currentUsers.map(user => user.room);
+  return currentUsers.map(user => {if(user.name != "admin") return user.room});
 };
 
 exports.nameExists = (client, socket) => {
