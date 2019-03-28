@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import io from "socket.io-client";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import {
@@ -159,15 +160,23 @@ class Chat extends Component {
   };
 
   isScrolledIntoView = el => {
-    debugger;
     if (el && typeof el.getBoundingClientRect === "function") {
-      let rect = el.getBoundingClientRect();
-      let elemTop = rect.top;
-      let elemBottom = rect.bottom;
-
-      let isVisible = elemTop >= 0 && elemBottom <= window.innerHeight;
-
-      return isVisible;
+      var rect = el.getBoundingClientRect(),
+        top = rect.top,
+        height = rect.height,
+        el = el.parentNode;
+      // Check if bottom of the element is off the page
+      if (rect.bottom < 0) return false;
+      // Check its within the document viewport
+      if (top > document.documentElement.clientHeight) return false;
+      do {
+        rect = el.getBoundingClientRect();
+        if (top <= rect.bottom === false) return false;
+        // Check if the element is out of view due to a container scrolling
+        if (top + height <= rect.top) return false;
+        el = el.parentNode;
+      } while (el != document.body);
+      return true;
     }
   };
 
@@ -396,7 +405,7 @@ class Chat extends Component {
             })}
           </List>
           {this.isScrolledIntoView(
-            document.getElementsByClassName("final-message"[0])
+            document.getElementsByClassName("final-message")[0]
           )
             ? this.newMessageComponent()
             : ""}
