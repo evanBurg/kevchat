@@ -430,6 +430,15 @@ class Chat extends Component {
               </Grid>
             </Paper>
           )}
+          {hideJoinObjects && (
+            <Typography
+              style={{ textAlign: "center", width: "100%" }}
+              variant="h4"
+            >
+              {this.state.roomName.value.toUpperCase()}
+            </Typography>
+          )}
+
           <List
             id="message-container"
             className="scenario-container messages"

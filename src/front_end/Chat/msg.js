@@ -16,13 +16,6 @@ class Msg extends React.Component {
           paddingBottom: "unset"
         }}
       >
-        {message.from == "admin" ? <PriorityHigh
-          style={{
-            position: 'relative',
-            top: '6px',
-            color: message.color
-          }}
-        /> : ""}
         <Typography
           onClick={() => this.setState({ open: !this.state.open })}
           variant="body1"
@@ -34,7 +27,7 @@ class Msg extends React.Component {
           }
           style={{ color: "white", background: message.color }}
         >
-          {message.message}{" "}
+          {message.from === "admin" ? <i>{message.message}</i> : message.message}
         </Typography>
         <div className={mine ? "mine details" : "yours details"}>
           <Collapse in={this.state.open}>

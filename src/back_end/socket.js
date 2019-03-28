@@ -40,6 +40,7 @@ exports.leaveRoom = socket => {
     });
 
     if (leavingUser)
+      matColours.push(leavingUser.color);
       socket.to(leavingUser.room).emit("someoneleft", {
         from: "admin",
         time: new Date(),
@@ -71,7 +72,7 @@ exports.getUsers = () => {
 };
 
 exports.rooms = () => {
-  return currentUsers.map(user => {if(user.name != "admin") return user.room});
+  return currentUsers.filter(user => user.name !== "admin").map(user => user.room);
 };
 
 exports.nameExists = (client, socket) => {
