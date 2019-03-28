@@ -1,0 +1,41 @@
+.bigred {
+  font-family: "Courier New";
+  font-style: italic;
+  font-size: xx-large;
+  color: red;
+}
+
+.react-autosuggest__input {
+  width: 240px;
+  height: 30px;
+  padding: 0px 0px 0px 5px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border-left: none;
+  border-right: none;
+  border-bottom: solid 2px;
+  border-bottom-color: #0d47a1;
+  border-top: none;
+  margin-bottom: 2vh;
+ }
+ .react-autosuggest__input:focus {
+  outline: none;
+ }
+
+ .scenario-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 60px;
+ }
+
+ .scenario-message {
+  color: white;
+  width: 80%;
+  margin: 2px;
+  padding: 1em;
+  font-size: smaller;
+  font-weight: bold;
+ }
+ 
