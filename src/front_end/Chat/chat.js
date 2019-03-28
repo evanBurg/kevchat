@@ -40,6 +40,13 @@ const defaultState = {
   finalMessageNotInView: false
 };
 
+const cardStyleDesktop = {
+  maxWidth: '58%',
+  textAlign: 'center',
+  marginLeft: 'auto',
+  marginRight: 'auto'
+}
+
 class Chat extends Component {
   constructor(props) {
     super(props);
@@ -274,6 +281,7 @@ class Chat extends Component {
 
   render() {
     const { messages, chatName, hideJoinObjects, msg } = this.state;
+    const width = window.innerWidth;
     return (
       <MuiThemeProvider theme={theme}>
         <TopBar viewDialog={this.handleOpenDialog} homeClick={this.leave} />
@@ -308,7 +316,7 @@ class Chat extends Component {
         </Dialog>
         <div style={{ marginTop: 110 }}>
           {!hideJoinObjects && (
-            <Card>
+            <Card style={width > 768 ? cardStyleDesktop : undefined}>
               <Typography
                 style={{ marginTop: 10, textAlign: "center" }}
                 variant="h5"
