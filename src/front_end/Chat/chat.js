@@ -76,11 +76,11 @@ class Chat extends Component {
     this.setState({
       onlineInterveral: setInterval(() => {
         fetch("/api/online").then((response) => {
-          if(response !== true){
-            window.location = response.url;
+          if(response != true){
+            window.location = "/offline.html"
           }
         })
-      }, 60000)
+      }, 35000)
     })
   }
 
