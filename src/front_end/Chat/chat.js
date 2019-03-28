@@ -198,6 +198,7 @@ class Chat extends Component {
           display: "block",
           paddingBottom: "unset",
           bottom: 95,
+          zIndex: 40,
           right: 10,
           backgroundColor: "rgb(38, 50, 56)"
         }}
