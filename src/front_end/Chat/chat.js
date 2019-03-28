@@ -158,15 +158,17 @@ class Chat extends Component {
     this.setState({ roomName: room });
   };
 
-  isScrolledIntoView = (el) => {
-    let rect = el.getBoundingClientRect();
-    let elemTop = rect.top;
-    let elemBottom = rect.bottom;
+  isScrolledIntoView = el => {
+    if (el) {
+      let rect = el.getBoundingClientRect();
+      let elemTop = rect.top;
+      let elemBottom = rect.bottom;
 
-    let isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+      let isVisible = elemTop >= 0 && elemBottom <= window.innerHeight;
 
-    return isVisible;
-}
+      return isVisible;
+    }
+  };
 
   // handler for send message button
   handleSendMessage = e => {
@@ -189,16 +191,37 @@ class Chat extends Component {
   };
   handleCloseDialog = () => this.setState({ open: false });
   scrollToFinal = () => {
-    let userDOM = ReactDOM.findDOMNode(document.getElementsByClassName("final")[0]);
-    userDOM.scrollIntoView({ alignToTop: false, scrollIntoViewOptions: {block: "end", inline: "nearest"} });
+    let userDOM = ReactDOM.findDOMNode(
+      document.getElementsByClassName("final")[0]
+    );
+    userDOM.scrollIntoView({
+      alignToTop: false,
+      scrollIntoViewOptions: { block: "end", inline: "nearest" }
+    });
     userDOM.blur();
-  }
+  };
 
   newMessageComponent = () => {
-    return <Typography onClick={this.scrollToFinal} style={{color: 'white', padding: 25, borderRadius: 30, position: "fixed", display: 'block', width: "93%", top: 95, height: 50, backgroundColor: "rgb(38, 50, 56)" }} variant="subtitle2">
-      New Message <ArrowDown/>
-    </Typography>
-  }
+    return (
+      <Typography
+        onClick={this.scrollToFinal}
+        style={{
+          color: "white",
+          padding: 25,
+          borderRadius: 30,
+          position: "fixed",
+          display: "block",
+          width: "93%",
+          top: 95,
+          height: 50,
+          backgroundColor: "rgb(38, 50, 56)"
+        }}
+        variant="subtitle2"
+      >
+        New Message <ArrowDown />
+      </Typography>
+    );
+  };
 
   render() {
     const { messages, chatName, hideJoinObjects, msg } = this.state;
@@ -326,7 +349,12 @@ class Chat extends Component {
                     required
                     helperText={
                       this.state.whoIsTyping.length > 0
-                        ? this.state.whoIsTyping.map(user => user.from).join(", ") + (this.state.whoIsTyping.length > 1 ? " are typing" : " is typing")
+                        ? this.state.whoIsTyping
+                            .map(user => user.from)
+                            .join(", ") +
+                          (this.state.whoIsTyping.length > 1
+                            ? " are typing"
+                            : " is typing")
                         : undefined
                     }
                     value={msg}
@@ -367,7 +395,11 @@ class Chat extends Component {
               );
             })}
           </List>
-          {this.isScrolledIntoView(document.getElementsByClassName("final-message"[0])) ? this.newMessageComponent() : "" }
+          {this.isScrolledIntoView(
+            document.getElementsByClassName("final-message"[0])
+          )
+            ? this.newMessageComponent()
+            : ""}
         </div>
       </MuiThemeProvider>
     );
