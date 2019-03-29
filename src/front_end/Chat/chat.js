@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import io from "socket.io-client";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import {
@@ -11,7 +10,6 @@ import {
   CardContent,
   Dialog,
   DialogTitle,
-  Collapse,
   Input,
   List,
   Paper,

@@ -9,14 +9,15 @@ class Msg extends React.Component {
 
   linkify = text => {
     var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-    let matches = [...text.match(urlRegex)];
+    let matches = [];
+    if(urlRegex.test(text))
+     matches = [...text.match(urlRegex)];
     
-    debugger;
     matches = matches.map(url => {
       if (!isImageUrl(url)) {
         return <React.Fragment><br/><a target="_blank" style={{clear: "both", color: 'white'}} href={url}> {url} </a></React.Fragment>;
       } else {
-        return <React.Fragment><br/><img onClick={() => this.setState({ imageExpanded: !this.state.imageExpanded })} style={{clear: "both"}} width={this.state.imageExpanded ? "100%" : "30%"} src={url}></img></React.Fragment>;
+        return <React.Fragment><br/><img onClick={() => this.setState({ imageExpanded: !this.state.imageExpanded })} style={{clear: "both"}} width={this.state.imageExpanded ? "100%" : "450px"} src={url}></img></React.Fragment>;
       }
     });
     return [text, ...matches]
