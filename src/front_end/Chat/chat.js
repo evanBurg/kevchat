@@ -302,7 +302,7 @@ class Chat extends Component {
             <Grid container spacing={24}>
               {this.state.users.map(user => {
                 return (
-                  <React.Fragment>
+                  <React.Fragment key={"user-" + JSON.stringify(user)}>
                     <Grid item xs={2}>
                       <Face style={{ color: user.color }} />
                     </Grid>
@@ -460,6 +460,7 @@ class Chat extends Component {
             {messages.map((message, index) => {
               return (
                 <Message
+                key={"msg-" + index}
                   message={message}
                   mine={chatName === message.from}
                   last={
