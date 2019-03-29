@@ -41,11 +41,11 @@ const defaultState = {
 };
 
 const cardStyleDesktop = {
-  maxWidth: '58%',
-  textAlign: 'center',
-  marginLeft: 'auto',
-  marginRight: 'auto'
-}
+  maxWidth: "58%",
+  textAlign: "center",
+  marginLeft: "auto",
+  marginRight: "auto"
+};
 
 class Chat extends Component {
   constructor(props) {
@@ -63,14 +63,16 @@ class Chat extends Component {
     socket.on("users", this.setUsers);
     socket.on("disconnect", this.leave);
 
-    var urlParams = new URLSearchParams(window.location.search)
+    var urlParams = new URLSearchParams(window.location.search);
 
     this.state = {
       socket: socket,
       messages: [],
       users: [],
       chatName: "",
-      roomName: urlParams.has("room") ? {label: urlParams.get("room"), value: urlParams.get("room")} : "",
+      roomName: urlParams.has("room")
+        ? { label: urlParams.get("room"), value: urlParams.get("room") }
+        : "",
       msg: "",
       isTyping: false,
       whoIsTyping: [],
@@ -194,16 +196,18 @@ class Chat extends Component {
   // handler for send message button
   handleSendMessage = e => {
     e.preventDefault();
-    this.state.socket.emit(
-      "message",
-      {
-        name: this.state.chatName,
-        room: this.state.roomName.value,
-        msg: this.state.msg
-      },
-      err => {}
-    );
-    this.setState({ msg: "", isTyping: false });
+    if (this.state.msg.length > 0) {
+      this.state.socket.emit(
+        "message",
+        {
+          name: this.state.chatName,
+          room: this.state.roomName.value,
+          msg: this.state.msg
+        },
+        err => {}
+      );
+      this.setState({ msg: "", isTyping: false });
+    }
   };
 
   handleOpenDialog = () => {
