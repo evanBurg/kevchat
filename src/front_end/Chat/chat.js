@@ -72,7 +72,7 @@ class Chat extends Component {
       chatName: "",
       roomName: urlParams.has("room")
         ? { label: urlParams.get("room"), value: urlParams.get("room") }
-        : "",
+        : { label: "main", value: "main" },
       msg: "",
       isTyping: false,
       whoIsTyping: [],
@@ -98,9 +98,10 @@ class Chat extends Component {
 
   newMessageReceived = data => {
     this.addMessage(data);
-    this.setState({
-      finalMessageNotInView: this.finalMessageNotInView()
-    });
+    //this.setState({
+    //  finalMessageNotInView: this.finalMessageNotInView()
+    //});
+    this.scrollToFinal();
   };
 
   someoneTyping = data => {
