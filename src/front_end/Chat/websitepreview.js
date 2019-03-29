@@ -20,7 +20,7 @@ class WebsitePreview extends Component {
 
   componentDidMount = async () => {
     let response = await fetch(
-      `http://api.linkpreview.net/?key=${this.state.key}&q=${this.props.url}`
+      `https://api.linkpreview.net/?key=${this.state.key}&q=${this.props.url}`
     );
     if (response.ok) {
       response = await response.json();
