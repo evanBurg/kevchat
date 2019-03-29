@@ -31,7 +31,7 @@ class WebsitePreview extends Component {
 
   getImg = () => {
       if(this.state.image != false && this.state.image != ""){
-        return <CardMedia style={{height: 140}} image={this.state.image.replace("http", "https")} title={this.state.title} />
+        return <CardMedia style={{height: 140}} image={this.state.image.replace(/^http:\/\//i, 'https://')} title={this.state.title} />
       }else{
           return <React.Fragment/>
       }
