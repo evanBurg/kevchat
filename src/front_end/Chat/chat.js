@@ -30,7 +30,7 @@ const defaultState = {
   messages: [],
   users: [],
   chatName: "",
-  roomName: "",
+  roomName: { label: "main", value: "main" },
   msg: "",
   isTyping: false,
   nameExists: false,
@@ -197,7 +197,7 @@ class Chat extends Component {
   // handler for send message button
   handleSendMessage = e => {
     e.preventDefault();
-    if (this.state.msg.length > 0) {
+    if (this.state.msg.length > 0 && this.state.msg !== "") {
       this.state.socket.emit(
         "message",
         {
