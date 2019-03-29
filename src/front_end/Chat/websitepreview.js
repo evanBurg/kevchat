@@ -29,6 +29,10 @@ class WebsitePreview extends Component {
     }
   };
 
+  shouldComponentUpdate(nextProps, nextState){
+      return nextProps.url !== this.props.url;
+  }
+
   getImg = () => {
       if(this.state.image != false && this.state.image != ""){
         return <CardMedia style={{height: 140}} image={this.state.image.replace(/^http:\/\//i, 'https://')} title={this.state.title} />
