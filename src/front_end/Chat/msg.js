@@ -3,7 +3,8 @@ import { Typography, ListItem, Collapse } from "@material-ui/core";
 import isImageUrl from "is-image-url";
 class Msg extends React.Component {
   state = {
-    open: false
+    open: false,
+    imageExpanded: false
   };
 
   linkify = text => {
@@ -15,7 +16,7 @@ class Msg extends React.Component {
       if (!isImageUrl(url)) {
         return <React.Fragment><br/><a target="_blank" style={{clear: "both", color: 'white'}} href={url}> {url} </a></React.Fragment>;
       } else {
-        return <a target="_blank" href={url}> <img style={{clear: "both"}} width="80%" src={url}></img> </a>;
+        return <React.Fragment><br/><img onClick={() => this.setState({ imageExpanded: !this.state.imageExpanded })} style={{clear: "both"}} width={this.state.imageExpanded ? "100%" : "30%"} src={url}></img></React.Fragment>;
       }
     });
     return [text, ...matches]
