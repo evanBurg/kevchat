@@ -30,8 +30,8 @@ class Msg extends React.Component {
               onClick={() =>
                 this.setState({ imageExpanded: !this.state.imageExpanded })
               }
-              style={{ clear: "both" }}
-              width={this.state.imageExpanded ? "100%" : "450px"}
+              style={{ clear: "both", textAlign: 'center', borderRadius: 5 }}
+              width={this.state.imageExpanded ? "100%" : "30%"}
               src={url}
             />
           </React.Fragment>
