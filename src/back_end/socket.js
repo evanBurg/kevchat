@@ -39,14 +39,16 @@ exports.leaveRoom = socket => {
       }
     });
 
-    if (leavingUser) matColours.push(leavingUser.color);
-    socket.to(leavingUser.room).emit("someoneleft", {
-      from: "admin",
-      time: new Date(),
-      room: leavingUser.room,
-      color: systemColor,
-      message: `User ${leavingUser.name} left room ${leavingUser.room}`
-    });
+    if (leavingUser) {
+      matColours.push(leavingUser.color);
+      socket.to(leavingUser.room).emit("someoneleft", {
+        from: "admin",
+        time: new Date(),
+        room: leavingUser.room,
+        color: systemColor,
+        message: `User ${leavingUser.name} left room ${leavingUser.room}`
+      });
+    }
 
     resolve(leavingUser);
   });
