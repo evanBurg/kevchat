@@ -13,16 +13,19 @@ import {
   Input,
   List,
   Paper,
+  IconButton,
   DialogContent
 } from "@material-ui/core";
 import Face from "@material-ui/icons/Face";
 import ArrowDown from "@material-ui/icons/ArrowDownward";
+import BorderColor from "@material-ui/icons/BorderColor";
 import Send from "@material-ui/icons/Send";
 import theme from "../../../theme";
 import "./chat.css";
 import Message from "./msg";
 import TopBar from "./topbar";
 import SelectWrapped from "../Select/CreateSelectWrapped";
+import ColourPicker from "./ColourPicker";
 
 const defaultState = {
   messages: [],
@@ -59,6 +62,7 @@ class Chat extends Component {
     socket.on("newmessage", this.newMessageReceived);
     socket.on("rooms", this.setRooms);
     socket.on("users", this.setUsers);
+    socket.on("availablecolours", this.setColours);
     socket.on("disconnect", this.leave);
 
     var urlParams = new URLSearchParams(window.location.search);
@@ -66,6 +70,8 @@ class Chat extends Component {
     this.state = {
       socket: socket,
       messages: [],
+      colourPickerOpen: false,
+      colors: [],
       users: [],
       chatName: "",
       roomName: urlParams.has("room")
@@ -93,6 +99,9 @@ class Chat extends Component {
   //     }, 35000)
   //   })
   // }
+  setColours = (data) => {
+    this.setState({colors: data})
+  }
 
   newMessageReceived = data => {
     this.addMessage(data);
@@ -164,7 +173,7 @@ class Chat extends Component {
 
   onWelcome = dataFromServer => {
     this.addMessage(dataFromServer);
-    this.setState({ hideJoinObjects: true });
+    this.setState({ hideJoinObjects: true, colours: dataFromServer.colours });
   };
 
   nameExists = () => {
@@ -284,12 +293,30 @@ class Chat extends Component {
     }
   };
 
+  changeColour = (colour) => {
+    this.state.socket.emit("changecolour", {
+      new: colour,
+      name: this.state.chatName
+    })
+    this.toggleColourPicker();
+  }
+
+  openColourPicker = () => {
+    this.state.socket.emit("colours");
+    this.setState({colourPickerOpen: true});
+  }
+
+  toggleColourPicker = () => {
+    this.setState({colourPickerOpen: !this.state.colourPickerOpen});
+  }
+
   render() {
     const { messages, chatName, hideJoinObjects, msg } = this.state;
     const width = window.innerWidth;
     return (
       <MuiThemeProvider theme={theme}>
         <TopBar viewDialog={this.handleOpenDialog} homeClick={this.leave} />
+        <ColourPicker chooseColour={this.changeColour} open={this.state.colourPickerOpen} toggle={this.toggleColourPicker} colours={this.state.colors} />
         <Dialog
           open={this.state.open}
           onClose={this.handleCloseDialog}
@@ -306,13 +333,20 @@ class Chat extends Component {
                     <Grid item xs={2}>
                       <Face style={{ color: user.color }} />
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={this.state.chatName === user.name ? 8 : 10}>
                       <Typography variant="overline">
                         {user.name}{" "}
-                        {this.state.chatName === user.name ? "(You)" : ""} [
+                        {this.state.chatName === user.name ? "(You) " : ""} [
                         {user.room}]
                       </Typography>
                     </Grid>
+                    {this.state.chatName === user.name && (
+                      <Grid item xs={2}>
+                        <IconButton onClick={this.openColourPicker} style={{padding: 'unset'}}>
+                          <BorderColor />
+                        </IconButton>
+                      </Grid>
+                    )}
                   </React.Fragment>
                 );
               })}
@@ -460,7 +494,7 @@ class Chat extends Component {
             {messages.map((message, index) => {
               return (
                 <Message
-                key={"msg-" + index}
+                  key={"msg-" + index}
                   message={message}
                   mine={chatName === message.from}
                   last={

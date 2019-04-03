@@ -54,6 +54,14 @@ exports.leaveRoom = socket => {
   });
 };
 
+exports.changeColour = (client, socket) => {
+  const index = currentUsers.map(x => x.name).indexOf(client.name);
+  matColours.push(socket.color);
+  currentUsers[index].color = client.new;
+  socket.color = client.new;
+  matColours = matColours.filter(x => x != client.new);
+}
+
 exports.welcome = (client, socket) => {
   return new Promise((resolve, reject) => {
     resolve(
@@ -62,6 +70,7 @@ exports.welcome = (client, socket) => {
         time: new Date(),
         room: client.room,
         color: systemColor,
+        colors: matColours,
         message: `Welcome ${client.name}! (Joined room ${client.room})`
       })
     );
@@ -82,6 +91,10 @@ exports.rooms = () => {
     .map(user => user.room)
     .filter(onlyUnique);
 };
+
+exports.colours = () => {
+  return matColours;
+}
 
 exports.nameExists = (client, socket) => {
   return new Promise((resolve, reject) => {
