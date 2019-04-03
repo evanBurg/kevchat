@@ -18,7 +18,7 @@ class ColourPicker extends Component {
       <Dialog open={this.props.open} onClose={this.props.toggle}>
         <DialogTitle>Choose a Colour</DialogTitle>
         <DialogContent>
-          <Grid container spacing={8}>
+          <Grid container spacing={0}>
             {this.props.colours.sort((left, right) => Colour(left).hue() - Colour(right).hue()).map(colour => {
               return (
                 <Grid key={colour} item xs={1}>
@@ -26,9 +26,10 @@ class ColourPicker extends Component {
                     onClick={() => this.chooseColour(colour)}
                     style={{
                       backgroundColor: colour,
-                      height: 25,
-                      width: 25,
-                      borderRadius: 25 / 2
+                      height: 22,
+                      width: 22,
+                      borderRadius: 22 / 2,
+                      margin: 2
                     }}
                   />
                 </Grid>
