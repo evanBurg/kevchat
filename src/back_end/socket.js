@@ -55,12 +55,15 @@ exports.leaveRoom = socket => {
 };
 
 exports.changeColour = (client, socket) => {
-  const index = currentUsers.map(x => x.name).indexOf(client.name);
-  matColours.push(socket.color);
-  currentUsers[index].color = client.new;
-  socket.color = client.new;
-  matColours = matColours.filter(x => x != client.new);
-}
+  return new Promise((resolve, reject) => {
+    const index = currentUsers.map(x => x.name).indexOf(client.name);
+    matColours.push(socket.color);
+    currentUsers[index].color = client.new;
+    socket.color = client.new;
+    matColours = matColours.filter(x => x != client.new);
+    resolve(true);
+  });
+};
 
 exports.welcome = (client, socket) => {
   return new Promise((resolve, reject) => {
@@ -78,7 +81,9 @@ exports.welcome = (client, socket) => {
 };
 
 exports.getUsers = () => {
-  return currentUsers;
+  return new Promise((resolve, reject) => {
+    resolve(currentUsers);
+  });
 };
 
 onlyUnique = (value, index, self) => {
@@ -86,15 +91,21 @@ onlyUnique = (value, index, self) => {
 };
 
 exports.rooms = () => {
-  return currentUsers
-    .filter(user => user.name !== "admin")
-    .map(user => user.room)
-    .filter(onlyUnique);
+  return new Promise((resolve, reject) => {
+    resolve(
+      currentUsers
+        .filter(user => user.name !== "admin")
+        .map(user => user.room)
+        .filter(onlyUnique)
+    );
+  });
 };
 
 exports.colours = () => {
-  return matColours;
-}
+  return new Promise((resolve, reject) => {
+    resolve(matColours);
+  });
+};
 
 exports.nameExists = (client, socket) => {
   return new Promise((resolve, reject) => {
