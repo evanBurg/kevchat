@@ -26,6 +26,7 @@ import Message from "./msg";
 import TopBar from "./topbar";
 import SelectWrapped from "../Select/CreateSelectWrapped";
 import ColourPicker from "./ColourPicker";
+import Logo from "./logo";
 
 const defaultState = {
   messages: [],
@@ -99,9 +100,9 @@ class Chat extends Component {
   //     }, 35000)
   //   })
   // }
-  setColours = (data) => {
-    this.setState({colors: data})
-  }
+  setColours = data => {
+    this.setState({ colors: data });
+  };
 
   newMessageReceived = data => {
     this.addMessage(data);
@@ -184,13 +185,15 @@ class Chat extends Component {
 
   // handler for Join button click
   handleJoin = () => {
-    this.setState({
-      nameExists: false
-    });
-    this.state.socket.emit("join", {
-      name: this.state.chatName,
-      room: this.state.roomName.value
-    });
+    if (this.state.chatName.length >= 3 && this.state.roomName.value.length > 0) {
+      this.setState({
+        nameExists: false
+      });
+      this.state.socket.emit("join", {
+        name: this.state.chatName,
+        room: this.state.roomName.value
+      });
+    }
   };
   // handler for name TextField entry
   onNameChange = e => {
@@ -293,22 +296,22 @@ class Chat extends Component {
     }
   };
 
-  changeColour = (colour) => {
+  changeColour = colour => {
     this.state.socket.emit("changecolour", {
       new: colour,
       name: this.state.chatName
-    })
+    });
     this.toggleColourPicker();
-  }
+  };
 
   openColourPicker = () => {
     this.state.socket.emit("colours");
-    this.setState({colourPickerOpen: true});
-  }
+    this.setState({ colourPickerOpen: true });
+  };
 
   toggleColourPicker = () => {
-    this.setState({colourPickerOpen: !this.state.colourPickerOpen});
-  }
+    this.setState({ colourPickerOpen: !this.state.colourPickerOpen });
+  };
 
   render() {
     const { messages, chatName, hideJoinObjects, msg } = this.state;
@@ -316,7 +319,12 @@ class Chat extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <TopBar viewDialog={this.handleOpenDialog} homeClick={this.leave} />
-        <ColourPicker chooseColour={this.changeColour} open={this.state.colourPickerOpen} toggle={this.toggleColourPicker} colours={this.state.colors} />
+        <ColourPicker
+          chooseColour={this.changeColour}
+          open={this.state.colourPickerOpen}
+          toggle={this.toggleColourPicker}
+          colours={this.state.colors}
+        />
         <Dialog
           open={this.state.open}
           onClose={this.handleCloseDialog}
@@ -342,7 +350,10 @@ class Chat extends Component {
                     </Grid>
                     {this.state.chatName === user.name && (
                       <Grid item xs={2}>
-                        <IconButton onClick={this.openColourPicker} style={{padding: 'unset'}}>
+                        <IconButton
+                          onClick={this.openColourPicker}
+                          style={{ padding: "unset" }}
+                        >
                           <BorderColor />
                         </IconButton>
                       </Grid>
@@ -353,7 +364,9 @@ class Chat extends Component {
             </Grid>
           </DialogContent>
         </Dialog>
+
         <div style={{ marginTop: 110 }}>
+          <Logo show={!hideJoinObjects} />
           {!hideJoinObjects && (
             <Card style={width > 768 ? cardStyleDesktop : undefined}>
               <Typography
@@ -370,6 +383,11 @@ class Chat extends Component {
                       fullWidth
                       style={{ marginTop: 16 }}
                       onChange={this.onNameChange}
+                      onKeyPress={ev => {
+                        if (ev.key === "Enter") {
+                          this.handleJoin();
+                        }
+                      }}
                       placeholder="Enter unique name"
                       autoFocus={true}
                       required
@@ -377,7 +395,7 @@ class Chat extends Component {
                       helperText={
                         this.state.nameExists
                           ? "Name already exists"
-                          : undefined
+                          : "Enter a name with at least 3 characters"
                       }
                       value={chatName}
                     />
