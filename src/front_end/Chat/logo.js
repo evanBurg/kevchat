@@ -6,7 +6,7 @@ export default props => {
     const width = window.innerWidth;
     return (
         <div style={{ textAlign: "center" }}>
-          <img src="/img/logo.png" style={{ width: width > 768 ? "50%" : '100%' }} />
+          <img src="/img/logo.png" style={{ width: width > 768 ? "50%" : '30%' }} />
         </div>
     );
   } else {
