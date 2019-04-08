@@ -1,9 +1,10 @@
 const offlineUrl = "./offline.html";
 const imageUrl = "./img/mobile.png"
+const logoUrl = "./img/logo.png"
 this.addEventListener("install", event => {
   event.waitUntil(
     caches.open("offline-cache").then(function(cache) {
-      return cache.addAll([offlineUrl, imageUrl]);
+      return cache.addAll([offlineUrl, imageUrl, logoUrl]);
     })
   );
 });
