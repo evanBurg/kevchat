@@ -395,7 +395,7 @@ class Chat extends Component {
                       helperText={
                         this.state.nameExists
                           ? "Name already exists"
-                          : "Enter a name with at least 3 characters"
+                          : chatName.length < 3 ? "Enter a name with at least 3 characters" : ""
                       }
                       value={chatName}
                     />
