@@ -185,7 +185,10 @@ class Chat extends Component {
 
   // handler for Join button click
   handleJoin = () => {
-    if (this.state.chatName.length >= 3 && this.state.roomName.value.length > 0) {
+    if (
+      this.state.chatName.length >= 3 &&
+      this.state.roomName.value.length > 0
+    ) {
       this.setState({
         nameExists: false
       });
@@ -395,7 +398,9 @@ class Chat extends Component {
                       helperText={
                         this.state.nameExists
                           ? "Name already exists"
-                          : chatName.length < 3 ? "Enter a name with at least 3 characters" : ""
+                          : chatName.length < 3
+                          ? "Enter a name with at least 3 characters"
+                          : ""
                       }
                       value={chatName}
                     />
@@ -412,7 +417,18 @@ class Chat extends Component {
                           ? true
                           : !this.state.roomName.value
                           ? true
+                          : this.state.roomName.value.length < 3
+                          ? true
                           : false
+                      }
+                      helperText={
+                        !this.state.roomName
+                          ? "Please Choose A Room"
+                          : !this.state.roomName.value
+                          ? "Please Choose A Room"
+                          : this.state.roomName.value.length < 3
+                          ? "Please choose a room name with more than 3 characters"
+                          : ""
                       }
                       inputProps={{
                         options: this.state.rooms
